@@ -6,21 +6,13 @@ using System.Threading.Tasks;
 
 namespace Tracktrition.Data
 {
-    class Food
+    class Food : NutritionFacts
     {
         string name;
-        int calories;
-        double fat;
-        double protein;
-        double carbs;
 
-        Food(string name, int calories, double fat, double protein, double carbs)
+        public Food(string name, int calories, double fat, double protein, double carbs) : base(calories, fat, protein, carbs)
         {
             this.name = name;
-            this.calories = calories;
-            this.fat = fat;
-            this.protein = protein; 
-            this.carbs = carbs;
         }
 
     }
