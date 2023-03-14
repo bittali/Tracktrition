@@ -1,5 +1,4 @@
-﻿using Tracktrition.User;
-using Tracktrition.Data;
+﻿using Tracktrition.Data;
 
 // See https://aka.ms/new-console-template for more information
 

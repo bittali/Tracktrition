@@ -1,5 +1,3 @@
-using Tracktrition.User;
-
 namespace Tracktrition.Data;
 
 class NutritionRequirement : INutritionFacts
