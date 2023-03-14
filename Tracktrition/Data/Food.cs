@@ -1,8 +1,8 @@
 ﻿namespace Tracktrition.Data;
 
-class Food : INutritionFacts
+public class Food : INutritionFacts
 {
-    private string name;
+    public string name;
     public int calories { get; set; }
     public double fat { get; set; }
     public double protein { get; set; }
