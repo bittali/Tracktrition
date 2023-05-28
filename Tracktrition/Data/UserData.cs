@@ -3,7 +3,7 @@ namespace Tracktrition.Data;
 using System.IO;
 
 
-internal class UserData
+public class UserData
 {
     public string name { get; private set; }
     public char sex { get; private set; }
