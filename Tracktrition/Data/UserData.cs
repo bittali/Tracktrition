@@ -1,5 +1,7 @@
 ﻿
 namespace Tracktrition.Data;
+using System.IO;
+
 
 internal class UserData
 {
@@ -24,6 +26,7 @@ internal class UserData
 
     private double calcBmi(double weight, double height)
     {
-        return weight / (height * height)
+        return weight / (height * height);
     }
+
 }
