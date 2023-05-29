@@ -9,6 +9,8 @@ class Program
 
     static UserData currentUser = null;
 
+    static DateTime todaysDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
+
     static void Main()
     {
 
@@ -27,8 +29,8 @@ class Program
         {
             Console.WriteLine("1. Add Intake");
             Console.WriteLine("2. View todays Intake");
-            Console.WriteLine("3. View available Foods");
-            Console.WriteLine("4. View your recommended nutritional need");
+            Console.WriteLine("3. View your recommended nutritional need");
+            Console.WriteLine("4. View available Foods");
             Console.WriteLine("5. Change your data");
             Console.WriteLine("6. Logout");
             Console.Write("Enter your choice: ");
@@ -40,13 +42,13 @@ class Program
                     // AddIntake();
                     break;
                 case "2":
-                    // ViewTodaysIntake();
+                    ViewTodaysIntake(dailyUserIntakes);
                     break;
                 case "3":
-                    // ViewFoods();
+                    ViewNutritionNeed();
                     break;
                 case "4":
-                    ViewNutritionNeed();
+                    // ViewFoods();
                     break;
                 case "5":
                     ChangeUserData();
@@ -62,6 +64,14 @@ class Program
 
             Console.WriteLine();
         }
+    }
+
+    private static void ViewTodaysIntake(List<DailyIntake> dailyUserIntakes)
+    {
+        DailyIntake todaysIntake = DailyIntakeCheckAndUpdateToday(dailyUserIntakes);
+
+        todaysIntake.printDailyIntake();
+
     }
 
     private static void ChangeUserData()
@@ -164,6 +174,21 @@ class Program
 
         return user;
 
+    }
+
+    public static DailyIntake DailyIntakeCheckAndUpdateToday(List<DailyIntake> dailyUserIntakes)
+    {
+        DateTime todaysDate = DateTime.Today;
+        var existingIntake = dailyUserIntakes.FirstOrDefault(item => item.date.Date == todaysDate);
+
+        if (existingIntake != null)
+        {
+            return existingIntake;
+        }
+
+        var newIntake = new DailyIntake(todaysDate);
+        dailyUserIntakes.Add(newIntake);
+        return newIntake;
     }
 
     static void AddFoodItem()

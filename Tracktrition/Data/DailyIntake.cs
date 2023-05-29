@@ -18,25 +18,31 @@ public class DailyIntake : INutritionFacts
         this.dayIntake = new List<Intake>();
     }
 
-    public void addIntake(DateTime date, double amount, Food food) {
+    public void addIntake(double amount, Food food) {
         if (amount > 0)
         {
             Intake intake = new Intake(date, amount, food);
 
             this.dayIntake.Add(intake);
 
-            calcDailyIntake(date, intake);
+            calcDailyIntake(intake);
         }
     }
 
-    private void calcDailyIntake(DateTime date, Intake intake) {
+    private void calcDailyIntake(Intake intake) {
         this.calories += intake.calories;
         this.carbs += intake.carbs;
         this.protein += intake.protein;
         this.fat += intake.fat;
     }
 
-
-
-
+    public void printDailyIntake()
+    {
+        Console.WriteLine("\nYour Intake today");
+        Console.WriteLine("Date: " + date.ToString("yyyy-MM-dd"));
+        Console.WriteLine("Calories: " + calories);
+        Console.WriteLine("Carbs: " + carbs);
+        Console.WriteLine("Protein: " + protein);
+        Console.WriteLine("Fat: " + fat);
+    }
 }
