@@ -26,7 +26,6 @@ public class FoodLoader
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                Console.WriteLine(line); // DEBUGGING
                 string[] userData = line.Split(',');
 
                 if (userData.Length == 5)

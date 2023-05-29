@@ -19,7 +19,7 @@ public class Intake : INutritionFacts
     }
 
     private static double calcPerAmount(double data, double amount) {
-        double factor = amount * .1;
+        double factor = amount * .01;
         return data * factor;
     }
 }

@@ -25,7 +25,6 @@ public class DailyIntakeLoader
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                Console.WriteLine(line); // DEBUGGING
                 string[] intakeData = line.Split(',');
 
                 if (intakeData.Length == 5)

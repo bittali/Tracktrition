@@ -39,7 +39,7 @@ public class DailyIntake : INutritionFacts
     public void printDailyIntake()
     {
         Console.WriteLine("\nYour Intake today");
-        Console.WriteLine("Date: " + date.ToString("yyyy-MM-dd"));
+        Console.WriteLine("Date: " + date.ToString("dd-MM-yyyy"));
         Console.WriteLine("Calories: " + calories);
         Console.WriteLine("Carbs: " + carbs);
         Console.WriteLine("Protein: " + protein);

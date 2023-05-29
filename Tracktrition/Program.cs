@@ -40,7 +40,7 @@ class Program
             switch (choice)
             {
                 case "1":
-                    // AddIntake();
+                    AddIntake(foods, dailyUserIntakes);
                     break;
                 case "2":
                     ViewTodaysIntake(dailyUserIntakes);
@@ -67,6 +67,46 @@ class Program
 
             Console.WriteLine();
         }
+    }
+
+    private static void AddIntake(List<Food> foods, List<DailyIntake> dailyUserIntakes)
+    {
+        Console.Write("Enter your Intake Food: ");
+        string foodname = Console.ReadLine();
+
+        if (!CheckAndUpdateFood(foods, foodname))
+        {
+            Console.WriteLine("This Food does not exist. Please add it to the Database.");
+            AddFoodItem(foods);
+        }
+
+        Food food = GetFoodFromName(foods, foodname);
+
+        Console.Write("Enter your Intake Amount: ");
+        int amount = int.Parse(Console.ReadLine());
+
+        DailyIntake todaysIntake = DailyIntakeCheckAndUpdateToday(dailyUserIntakes);
+
+        todaysIntake.addIntake(amount, food);
+
+    }
+
+    private static Food GetFoodFromName(List<Food> foods, string? foodName)
+    {
+        return foods.FirstOrDefault(food => food.name == foodName);
+    }
+
+    private static bool CheckAndUpdateFood(List<Food> foods, string? foodname)
+    {
+        foreach (Food food in foods)
+        {
+
+            if (food.name == foodname)
+            {
+                return true; // Name found in the list
+            }
+        }
+        return false; // Name not found in the list
     }
 
     private static void Logout(List<UserData> users, List<Food> foods, List<DailyIntake> dailyUserIntakes)
