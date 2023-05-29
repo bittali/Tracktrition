@@ -1,6 +1,10 @@
 ﻿
 namespace Tracktrition.Data;
+
+using System;
+using System.Diagnostics;
 using System.IO;
+using System.Xml.Linq;
 
 
 public class UserData
@@ -29,4 +33,19 @@ public class UserData
         return weight / (height * height);
     }
 
+    internal void printData()
+    {
+        Console.WriteLine("Your currently saved Data");
+        Console.WriteLine("Name: " + name);
+        Console.WriteLine("Sex: " + sex);
+        Console.WriteLine("Age: " + age);
+        Console.WriteLine("Weight: " + weight);
+        Console.WriteLine("Height: " + height);
+        Console.WriteLine("Activity: " + activity);
+    }
+
+    internal void printBMI() 
+    { 
+        Console.WriteLine("Your current BMI: " + bmi); 
+    }
 }

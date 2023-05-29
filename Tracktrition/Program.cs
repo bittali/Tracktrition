@@ -12,13 +12,6 @@ class Program
     static void Main()
     {
 
-        UserData maxMuster = new UserData("Max Muster", 'm', 33, 75.0, 180, 1);
-
-        NutritionRequirement needsMax = new NutritionRequirement(maxMuster);
-
-        System.Console.WriteLine("The recommended daily nutritional need for {0} is: ", maxMuster.name);
-        System.Console.WriteLine("Calories: {0} \nCarbs: {1} g \nProtein: {2} g \nFat: {3} g \n", needsMax.calories, needsMax.carbs.ToString("n2"), needsMax.protein.ToString("n2"), needsMax.fat.ToString("n2"));
-
         List<UserData> users = UserDataLoader.ReadUserDataFromFile();
         List<Food> foods = FoodLoader.ReadFoodFromFile();
 
@@ -56,7 +49,7 @@ class Program
                     ViewNutritionNeed();
                     break;
                 case "5":
-                    // ViewNutritionTracker();
+                    ChangeUserData();
                     break;
                 case "6":
                     Console.WriteLine($"Logging out {currentUser.name}...");
@@ -69,6 +62,34 @@ class Program
 
             Console.WriteLine();
         }
+    }
+
+    private static void ChangeUserData()
+    {
+
+        currentUser.printData();
+
+        Console.WriteLine("\nYou can change the following Data:");
+
+        Console.Write("Enter your age: ");
+        currentUser.age = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter your weight: ");
+        currentUser.weight = double.Parse(Console.ReadLine());
+
+        Console.Write("Enter your height: ");
+        currentUser.height = int.Parse(Console.ReadLine());
+
+        Console.WriteLine("Activity Levels:");
+        Console.WriteLine("1: Sedentary (little or no exercise)");
+        Console.WriteLine("2: Lightly active (light exercise or sports 1-3 days/week)");
+        Console.WriteLine("3: Moderately active (moderate exercise 3-5 days/week)");
+        Console.WriteLine("4: Very active (hard exercise 6-7 days/week)");
+        Console.WriteLine("5: Super active (very hard exercise and a physical job)");
+
+        Console.Write("Enter the activity level (1-5): ");
+        currentUser.activity = int.Parse(Console.ReadLine());
+
     }
 
     private static void ViewNutritionNeed()
