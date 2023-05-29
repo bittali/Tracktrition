@@ -22,11 +22,12 @@ public class UserDataLoader
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                Console.WriteLine(line); // DEBUGGING
+
                 string[] userData = line.Split(',');
 
                 if (userData.Length == 6)
                 {
+
                     UserData user = new UserData(
                         userData[0],
                         userData[1][0],
@@ -49,7 +50,7 @@ public class UserDataLoader
         {
             foreach (UserData user in users)
             {
-                string line = $"{user.name},{user.sex},{user.age},{user.weight},{user.height},{user.bmi},{user.activity}";
+                string line = $"{user.name},{user.sex},{user.age},{user.weight},{user.height},{user.activity}";
                 writer.WriteLine(line);
             }
         }

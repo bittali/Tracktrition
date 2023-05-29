@@ -7,7 +7,7 @@ class Program
 
     const string fileName = "users.csv";
 
-    static string loggedInUsername = null;
+    static UserData currentUser = null;
 
     static void Main()
     {
@@ -24,20 +24,19 @@ class Program
 
         if (!Login(users))
         {
-            Console.WriteLine("This shouldnt happen");
             users.Add(CreateUser());
         }
 
         // LOAD INTAKE DATA HERE 
-        List<DailyIntake> dailyUserIntakes = loadIntake(loggedInUsername);
+        List<DailyIntake> dailyUserIntakes = loadIntake(currentUser.name);
 
         while (true)
         {
             Console.WriteLine("1. Add Intake");
             Console.WriteLine("2. View todays Intake");
             Console.WriteLine("3. View available Foods");
-            Console.WriteLine("4. TBA");
-            Console.WriteLine("5. TBA");
+            Console.WriteLine("4. View your recommended nutritional need");
+            Console.WriteLine("5. Change your data");
             Console.WriteLine("6. Logout");
             Console.Write("Enter your choice: ");
             string choice = Console.ReadLine();
@@ -54,13 +53,13 @@ class Program
                     // ViewFoods();
                     break;
                 case "4":
-                    // ViewNutritionTracker();
+                    ViewNutritionNeed();
                     break;
                 case "5":
                     // ViewNutritionTracker();
                     break;
                 case "6":
-                    Console.WriteLine($"Logging out {loggedInUsername}...");
+                    Console.WriteLine($"Logging out {currentUser.name}...");
                     UserDataLoader.SaveUserDataToFile(users);
                     return;
                 default:
@@ -70,6 +69,16 @@ class Program
 
             Console.WriteLine();
         }
+    }
+
+    private static void ViewNutritionNeed()
+    {
+        NutritionRequirement currentUserNeeds = new NutritionRequirement(currentUser);
+
+        Console.WriteLine("The recommended daily nutritional need for {0} is: ", currentUser.name);
+        Console.WriteLine("Calories: {0} \nCarbs: {1} g \nProtein: {2} g \nFat: {3} g \n", currentUserNeeds.calories, 
+            currentUserNeeds.carbs.ToString("n2"), currentUserNeeds.protein.ToString("n2"), currentUserNeeds.fat.ToString("n2"));
+
     }
 
     private static List<DailyIntake> loadIntake(string activeUser)
@@ -86,11 +95,11 @@ class Program
 
         foreach (UserData user in users)
         {
-            Console.WriteLine("This should happen");
+
             if (user.name == username)
             {
                 Console.WriteLine($"Welcome, {username}!");
-                loggedInUsername = username;
+                currentUser = user;
                 return true; // Name found in the list
             }
         }
@@ -105,7 +114,7 @@ class Program
         Console.Write("Enter your name: ");
         string name = Console.ReadLine();
 
-        Console.Write("Enter your sex: ");
+        Console.Write("Enter your sex (m/f): ");
         char sex = Console.ReadKey().KeyChar;
         Console.WriteLine();
 
@@ -118,12 +127,19 @@ class Program
         Console.Write("Enter your height: ");
         int height = int.Parse(Console.ReadLine());
 
-        Console.Write("Enter your activity: ");
+        Console.WriteLine("Activity Levels:");
+        Console.WriteLine("1: Sedentary (little or no exercise)");
+        Console.WriteLine("2: Lightly active (light exercise or sports 1-3 days/week)");
+        Console.WriteLine("3: Moderately active (moderate exercise 3-5 days/week)");
+        Console.WriteLine("4: Very active (hard exercise 6-7 days/week)");
+        Console.WriteLine("5: Super active (very hard exercise and a physical job)");
+
+        Console.Write("Enter the activity level (1-5): ");
         int activity = int.Parse(Console.ReadLine());
 
         UserData user = new UserData(name, sex, age, weight, height, activity);
 
-        loggedInUsername = name;
+        currentUser = user;
 
         return user;
 
