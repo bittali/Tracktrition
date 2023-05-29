@@ -28,7 +28,7 @@ public class DailyIntakeLoader
                 Console.WriteLine(line); // DEBUGGING
                 string[] intakeData = line.Split(',');
 
-                if (intakeData.Length == 6)
+                if (intakeData.Length == 5)
                 {
                     DateTime date = DateTime.Parse(intakeData[0]);
                     int calories = int.Parse(intakeData[1]);

@@ -24,11 +24,12 @@ class Program
 
         if (!Login(users))
         {
+            Console.WriteLine("This shouldnt happen");
             users.Add(CreateUser());
         }
 
-        // TBA
         // LOAD INTAKE DATA HERE 
+        List<DailyIntake> dailyUserIntakes = loadIntake(loggedInUsername);
 
         while (true)
         {
@@ -71,6 +72,13 @@ class Program
         }
     }
 
+    private static List<DailyIntake> loadIntake(string activeUser)
+    {
+        List<DailyIntake> dailyIntakes = DailyIntakeLoader.ReadDailyIntakeFromFile(activeUser);
+
+        return dailyIntakes;
+    }
+
     static bool Login(List<UserData> users)
     {
         Console.Write("Enter your name: ");
@@ -78,6 +86,7 @@ class Program
 
         foreach (UserData user in users)
         {
+            Console.WriteLine("This should happen");
             if (user.name == username)
             {
                 Console.WriteLine($"Welcome, {username}!");

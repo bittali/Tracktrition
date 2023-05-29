@@ -25,7 +25,7 @@ public class UserDataLoader
                 Console.WriteLine(line); // DEBUGGING
                 string[] userData = line.Split(',');
 
-                if (userData.Length == 7)
+                if (userData.Length == 6)
                 {
                     UserData user = new UserData(
                         userData[0],
@@ -33,7 +33,7 @@ public class UserDataLoader
                         int.Parse(userData[2]),
                         double.Parse(userData[3]),
                         int.Parse(userData[4]),
-                        int.Parse(userData[6])
+                        int.Parse(userData[5])
                     );
                     users.Add(user);
                 }
