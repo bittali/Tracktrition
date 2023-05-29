@@ -1,6 +1,7 @@
 ﻿using Tracktrition.Data;
 using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
+using System.Globalization;
 
 class Program
 {
@@ -121,7 +122,7 @@ class Program
     {
         foreach (Food food in foods)
         {
-            Console.WriteLine(food.name);
+            Console.WriteLine(food.name + " ({0}g calories, {1}g fat, {2}g protein, {3}g carbs)", food.calories, food.fat, food.protein, food.carbs);
         }
     }
 
@@ -256,20 +257,16 @@ class Program
         string name = Console.ReadLine();
 
         Console.WriteLine("Enter the number of calories in 100g:");
-        int calories;
-        int.TryParse(Console.ReadLine(), out calories);
+        int calories = int.Parse(Console.ReadLine());
 
         Console.WriteLine("Enter the amount of fat in 100g:");
-        double fat;
-        double.TryParse(Console.ReadLine(), out fat);
+        double fat = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
 
         Console.WriteLine("Enter the amount of protein in 100g:");
-        double protein;
-        double.TryParse(Console.ReadLine(), out protein);
+        double protein = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
 
         Console.WriteLine("Enter the amount of carbs in 100g:");
-        double carbs;
-        double.TryParse(Console.ReadLine(), out carbs);
+        double carbs = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
 
         Food food = new Food(name, calories, fat, protein, carbs);
         foods.Add(food);
