@@ -31,8 +31,9 @@ class Program
             Console.WriteLine("2. View todays Intake");
             Console.WriteLine("3. View your recommended nutritional need");
             Console.WriteLine("4. View available Foods");
-            Console.WriteLine("5. Change your data");
-            Console.WriteLine("6. Logout");
+            Console.WriteLine("5. Add Food");
+            Console.WriteLine("6. Change your data");
+            Console.WriteLine("7. Logout");
             Console.Write("Enter your choice: ");
             string choice = Console.ReadLine();
 
@@ -48,14 +49,16 @@ class Program
                     ViewNutritionNeed();
                     break;
                 case "4":
-                    // ViewFoods();
+                    ViewFoods(foods);
                     break;
                 case "5":
-                    ChangeUserData();
+                    foods = AddFoodItem(foods);
                     break;
                 case "6":
-                    Console.WriteLine($"Logging out {currentUser.name}...");
-                    UserDataLoader.SaveUserDataToFile(users);
+                    ChangeUserData();
+                    break;
+                case "7":
+                    Logout(users, foods, dailyUserIntakes);                   
                     return;
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");
@@ -63,6 +66,22 @@ class Program
             }
 
             Console.WriteLine();
+        }
+    }
+
+    private static void Logout(List<UserData> users, List<Food> foods, List<DailyIntake> dailyUserIntakes)
+    {
+        Console.WriteLine($"Logging out {currentUser.name}...");
+        UserDataLoader.SaveUserDataToFile(users);
+        FoodLoader.SaveFoodsToFile(foods);
+        DailyIntakeLoader.SaveDailyIntakeToFile(dailyUserIntakes, currentUser.name);
+    }
+
+    private static void ViewFoods(List<Food> foods)
+    {
+        foreach (Food food in foods)
+        {
+            Console.WriteLine(food.name);
         }
     }
 
@@ -191,14 +210,30 @@ class Program
         return newIntake;
     }
 
-    static void AddFoodItem()
+    static List<Food> AddFoodItem(List<Food> foods)
     {
-        //TBA
-    }
+        Console.WriteLine("\nEnter the name of the food:");
+        string name = Console.ReadLine();
 
-    static void ViewNutritionTracker()
-    {
-        //TBA
+        Console.WriteLine("Enter the number of calories in 100g:");
+        int calories;
+        int.TryParse(Console.ReadLine(), out calories);
+
+        Console.WriteLine("Enter the amount of fat in 100g:");
+        double fat;
+        double.TryParse(Console.ReadLine(), out fat);
+
+        Console.WriteLine("Enter the amount of protein in 100g:");
+        double protein;
+        double.TryParse(Console.ReadLine(), out protein);
+
+        Console.WriteLine("Enter the amount of carbs in 100g:");
+        double carbs;
+        double.TryParse(Console.ReadLine(), out carbs);
+
+        Food food = new Food(name, calories, fat, protein, carbs);
+        foods.Add(food);
+        return foods;
     }
 
 }

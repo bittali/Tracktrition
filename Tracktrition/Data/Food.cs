@@ -1,4 +1,6 @@
-﻿namespace Tracktrition.Data;
+﻿using System.Xml.Linq;
+
+namespace Tracktrition.Data;
 
 public class Food : INutritionFacts
 {
@@ -44,4 +46,5 @@ public class Food : INutritionFacts
         //alternatively array of nutrition facts
         return food;
     }
+
 }
