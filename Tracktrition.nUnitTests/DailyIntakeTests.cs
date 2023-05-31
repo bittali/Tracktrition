@@ -4,28 +4,24 @@ namespace Tracktrition.nUnitTests
 {
     public class DailyIntakeTests
     {
-
-        //private const string fileName = "users.csv";
-
-        private UserData _currentUser { get; set; } = null!;
         private DateTime _todaysDateFake;
-        private Food _food = null!;
         private DailyIntake _dailyIntake;
+        private FoodLoaderMock foodLoaderMock = new FoodLoaderMock();
+        private Food testFood;
 
         [SetUp]
         public void Setup()
         {
             _todaysDateFake = new DateTime(2023, 01, 01);
-            _currentUser = new UserData("Max", 'm', 30, 70, 176, 2);
             _dailyIntake = new DailyIntake(_todaysDateFake);
-            _food = new Food("test food", 300, 10, 20, 30);
+            testFood = foodLoaderMock.ReadFoodFromFile()[0];
         }
 
         [Test]
         public void addIntake_Test()
         {
             var amount = 200;
-            _dailyIntake.addIntake(amount, _food);
+            _dailyIntake.addIntake(amount, testFood);
 
             Assert.That(_dailyIntake.dayIntake, Has.Count.EqualTo(1));
             Assert.That(_dailyIntake.calories, Is.EqualTo(600));

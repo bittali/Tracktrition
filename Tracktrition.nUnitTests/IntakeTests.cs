@@ -6,19 +6,20 @@ namespace Tracktrition.nUnitTests
     {
 
         private DateTime _todaysDateFake;
-        private Food _food = null!;
+        private FoodLoaderMock foodLoaderMock = new FoodLoaderMock();
+        private Food testFood;
 
         [SetUp]
         public void Setup()
         {
             _todaysDateFake = new DateTime(2023, 01, 01);
-            _food = new Food("test food", 300, 10, 20, 30);
+            testFood = foodLoaderMock.ReadFoodFromFile()[0];
         }
 
         [Test] 
         public void Intake_Test()
         {
-            var _intake = new Intake(_todaysDateFake, 400, _food);
+            var _intake = new Intake(_todaysDateFake, 400, testFood);
 
             Assert.That(_intake.date, Is.EqualTo(new DateTime(2023, 01, 01)));
             Assert.That(_intake.amount, Is.EqualTo(400));
