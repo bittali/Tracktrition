@@ -1,4 +1,4 @@
-﻿namespace Tracktrition.Data;
+﻿namespace Tracktrition.Main.Domain.Models;
 
 public class Food : INutritionFacts
 {
@@ -10,11 +10,11 @@ public class Food : INutritionFacts
 
     public Food()
     {
-        this.name = "Apple";
-        this.calories = 52;
-        this.fat = 0.17;
-        this.protein = 0.26;
-        this.carbs = 13.81;
+        name = "Apple";
+        calories = 52;
+        fat = 0.17;
+        protein = 0.26;
+        carbs = 13.81;
     }
 
     public Food(string name, int calories, double fat, double protein, double carbs)
@@ -26,20 +26,24 @@ public class Food : INutritionFacts
         this.carbs = carbs;
     }
 
-    public void addFood(string name, int calories, double protein, double fat, double carbs) {
+    public void addFood(string name, int calories, double protein, double fat, double carbs)
+    {
         // add new food
     }
 
-    public void updateFood(string name, int calories, double protein, double fat, double carbs) {
+    public void updateFood(string name, int calories, double protein, double fat, double carbs)
+    {
         // replace food with same name
     }
 
-    public List<Food> getFoods() {
+    public List<Food> getFoods()
+    {
         List<Food> foods = new List<Food>();
         // get all foods from file of foods an add them to list
         return foods;
     }
-    public Food getFacts() {
+    public Food getFacts()
+    {
         Food food = new Food();
         //alternatively array of nutrition facts
         return food;

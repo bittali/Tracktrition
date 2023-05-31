@@ -1,7 +1,6 @@
-﻿
-namespace Tracktrition.Data;
+﻿namespace Tracktrition.Main.Domain.Models;
 
-internal class UserData
+internal class User
 {
     public string name { get; private set; }
     public char sex { get; private set; }
@@ -11,19 +10,19 @@ internal class UserData
     public double bmi { get; private set; }
     public int activity { get; set; }
 
-    public UserData(string name, char sex, int age, double weight, int height, int activity)
+    public User(string name, char sex, int age, double weight, int height, int activity)
     {
         this.name = name;
         this.sex = sex;
         this.age = age;
         this.weight = weight;
         this.height = height;
-        this.bmi = calcBmi(weight, (double)height);
+        bmi = calcBmi(weight, height);
         this.activity = activity;
     }
 
     private double calcBmi(double weight, double height)
     {
-        return weight / (height * height)
+        return weight / (height * height);
     }
 }

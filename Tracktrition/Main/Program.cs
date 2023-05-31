@@ -1,8 +1,8 @@
-﻿using Tracktrition.Data;
+﻿using Tracktrition.Main.Domain.Models;
 
 // See https://aka.ms/new-console-template for more information
 
-UserData maxMuster = new UserData("Max Muster", 'm', 33, 75.0, 180, 1);
+User maxMuster = new User("Max Muster", 'm', 33, 75.0, 180, 1);
 
 NutritionRequirement needsMax = new NutritionRequirement(maxMuster);
 

@@ -1,5 +1,4 @@
-﻿
-namespace Tracktrition.Data
+﻿namespace Tracktrition.Main.Domain.Models
 {
     interface INutritionFacts
     {

@@ -7,4 +7,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Main\Adapters\" />
+    <Folder Include="Main\Domain\Services\" />
+    <Folder Include="Main\Domain\Ports\" />
+    <Folder Include="Test\" />
+  </ItemGroup>
+
 </Project>
