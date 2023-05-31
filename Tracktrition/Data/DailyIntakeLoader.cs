@@ -22,7 +22,7 @@ public class DailyIntakeLoader
 
         using (StreamReader reader = new StreamReader(UserDailyIntakeFileName))
         {
-            string line;
+            string? line;
             while ((line = reader.ReadLine()) != null)
             {
                 string[] intakeData = line.Split(',');

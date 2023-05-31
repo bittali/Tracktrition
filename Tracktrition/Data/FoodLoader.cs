@@ -23,7 +23,7 @@ public class FoodLoader
 
         using (StreamReader reader = new StreamReader(FoodFileName))
         {
-            string line;
+            string? line;
             while ((line = reader.ReadLine()) != null)
             {
                 string[] userData = line.Split(',');

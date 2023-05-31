@@ -6,8 +6,6 @@ using System.Globalization;
 class Program
 {
 
-    static readonly DateTime todaysDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
-
     static void Main()
     {
 
@@ -274,16 +272,36 @@ class Program
     public static DailyIntake DailyIntakeCheckAndUpdateToday(List<DailyIntake> dailyUserIntakes)
     {
         DateTime todaysDate = DateTime.Today;
-        var existingIntake = dailyUserIntakes.FirstOrDefault(item => item.date.Date == todaysDate);
 
+        // Check if there is an existing intake for today's date
+        var existingIntake = FindIntakeForToday(dailyUserIntakes, DateTime.Today);
+
+        // If an existing intake is found, return it
         if (existingIntake != null)
         {
             return existingIntake;
         }
 
+        // If no existing intake is found, create a new intake for today's date
         var newIntake = new DailyIntake(todaysDate);
+
+        // Add the new intake to the list of daily user intakes
         dailyUserIntakes.Add(newIntake);
+
+        // Return the newly created intake
         return newIntake;
+    }
+
+    static DailyIntake? FindIntakeForToday(List<DailyIntake> intakes, DateTime date)
+    {
+        foreach (var intake in intakes)
+        {
+            if (intake.date.Date == date.Date)
+            {
+                return intake;
+            }
+        }
+        return null;
     }
 
     static List<Food> AddFoodItem(List<Food> foods)
@@ -303,7 +321,7 @@ class Program
         Console.WriteLine("Enter the amount of carbs in 100g:");
         double carbs = ReadNonEmptyDouble();
 
-        Food food = new Food(name, calories, fat, protein, carbs);
+        Food food = new(name, calories, fat, protein, carbs);
         foods.Add(food);
         return foods;
     }
