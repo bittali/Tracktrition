@@ -7,7 +7,7 @@ public class DailyIntake : INutritionFacts
     public double carbs { get; set; }
     public double protein { get; set; }
     public double fat { get; set; }
-    private List<Intake> dayIntake;
+    public List<Intake> dayIntake;
 
     public DailyIntake(DateTime date) {
         this.date = date;
