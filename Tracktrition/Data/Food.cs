@@ -34,14 +34,14 @@ public class Food : INutritionFacts
         Console.Write("Enter the new name of the food: ");
         string? inputName = Console.ReadLine();
 
-        while (string.IsNullOrEmpty(inputName))
+        while (!ValidateName.IsValid(inputName))
         {
             Console.WriteLine("Invalid input. Please enter a valid name for the food.");
             Console.Write("Enter the name of the food: ");
             inputName = Console.ReadLine();
         }
 
-        name = inputName;
+        this.name = inputName.Trim();
     }
 
     private void UpdateCalories()
@@ -51,17 +51,16 @@ public class Food : INutritionFacts
         while (!validInput)
         {
             Console.Write("Enter the new number of calories: ");
-            if (int.TryParse(Console.ReadLine(), out int caloriesValue))
+            string? input = Console.ReadLine();
+
+            if (ValidateCalories.IsValid(input, out int caloriesValue))
             {
-                calories = caloriesValue;
+                this.calories = caloriesValue;
                 validInput = true;
-            }
-            else
-            {
-                Console.WriteLine("Invalid input. Please enter a valid number for calories.");
             }
         }
     }
+
 
     private void UpdateFat()
     {
@@ -70,17 +69,16 @@ public class Food : INutritionFacts
         while (!validInput)
         {
             Console.Write("Enter the new amount of fat: ");
-            if (double.TryParse(Console.ReadLine(), NumberStyles.Number, CultureInfo.InvariantCulture, out double fatValue))
+            string? input = Console.ReadLine();
+
+            if (ValidateFat.IsValid(input, out double fatValue))
             {
-                fat = fatValue;
+                this.fat = fatValue;
                 validInput = true;
-            }
-            else
-            {
-                Console.WriteLine("Invalid input. Please enter a valid number for fat.");
             }
         }
     }
+
 
     private void UpdateProtein()
     {
@@ -89,14 +87,12 @@ public class Food : INutritionFacts
         while (!validInput)
         {
             Console.Write("Enter the new amount of protein: ");
-            if (double.TryParse(Console.ReadLine(), NumberStyles.Number, CultureInfo.InvariantCulture, out double proteinValue))
+            string? input = Console.ReadLine();
+
+            if (ValidateProtein.IsValid(input, out double proteinValue))
             {
-                protein = proteinValue;
+                this.protein = proteinValue;
                 validInput = true;
-            }
-            else
-            {
-                Console.WriteLine("Invalid input. Please enter a valid number for protein.");
             }
         }
     }
@@ -108,14 +104,12 @@ public class Food : INutritionFacts
         while (!validInput)
         {
             Console.Write("Enter the new amount of carbs: ");
-            if (double.TryParse(Console.ReadLine(), NumberStyles.Number, CultureInfo.InvariantCulture, out double carbsValue))
+            string? input = Console.ReadLine();
+
+            if (ValidateCarbs.IsValid(input, out double carbsValue))
             {
-                carbs = carbsValue;
+                this.carbs = carbsValue;
                 validInput = true;
-            }
-            else
-            {
-                Console.WriteLine("Invalid input. Please enter a valid number for carbs.");
             }
         }
     }
