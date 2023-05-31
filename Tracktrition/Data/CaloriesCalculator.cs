@@ -1,6 +1,7 @@
-﻿using Tracktrition.Data;
+﻿using System.Security.Cryptography.X509Certificates;
+using Tracktrition.Data;
 
-public static class CaloriesCalculator
+public class CaloriesCalculator : ICalculator
 {
     public static double CalculateBMR(UserData user)
     {
@@ -29,5 +30,11 @@ public static class CaloriesCalculator
             default:
                 throw new InvalidOperationException("Invalid activity level specified.");
         }
+
+    }
+
+    public double Calculate(UserData user, double calories)
+    {
+        return CalculateCalories(user);
     }
 }

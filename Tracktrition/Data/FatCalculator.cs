@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tracktrition.Data
 {
-    public static class FatCalculator
+    public class FatCalculator : ICalculator
     {
         public static double CalculateFat(UserData user, double calories)
         {
@@ -26,6 +26,11 @@ namespace Tracktrition.Data
             }
 
             return Math.Round((calories * partFat / 9), 1);
+        }
+
+        public double Calculate(UserData user, double calories) 
+        { 
+            return CalculateFat(user, calories);
         }
     }
 }

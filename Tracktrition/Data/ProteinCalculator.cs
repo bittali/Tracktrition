@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tracktrition.Data
 {
-    public static class ProteinCalculator
+    public class ProteinCalculator : ICalculator
     {
         public static double CalculateProtein(UserData user, double calories)
         {
@@ -21,6 +21,12 @@ namespace Tracktrition.Data
             }
             return Math.Round((calories * partProtein / 4), 1);
         }
+
+        public double Calculate(UserData user, double calories) 
+        { 
+        return CalculateProtein(user, calories);
+        }
+
     }
 
 }
