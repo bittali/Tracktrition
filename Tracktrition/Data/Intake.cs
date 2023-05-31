@@ -18,7 +18,7 @@ public class Intake : INutritionFacts
         this.fat = calcPerAmount(food.fat, amount);
     }
 
-    private static double calcPerAmount(double data, double amount) {
+    public static double calcPerAmount(double data, double amount) {
         double factor = amount * .01;
         return data * factor;
     }
