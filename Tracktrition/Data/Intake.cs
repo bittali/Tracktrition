@@ -12,13 +12,13 @@ public class Intake : INutritionFacts
     public Intake(DateTime date, double amount, Food food) {
         this.date = date;
         this.amount = amount;
-        this.calories = (int)calcPerAmount(food.calories, amount);
-        this.carbs = calcPerAmount(food.carbs, amount);
-        this.protein = calcPerAmount(food.protein, amount);
-        this.fat = calcPerAmount(food.fat, amount);
+        this.calories = (int)CalcPerAmount(food.calories, amount);
+        this.carbs = CalcPerAmount(food.carbs, amount);
+        this.protein = CalcPerAmount(food.protein, amount);
+        this.fat = CalcPerAmount(food.fat, amount);
     }
 
-    private static double calcPerAmount(double data, double amount) {
+    private static double CalcPerAmount(double data, double amount) {
         double factor = amount * .01;
         return data * factor;
     }

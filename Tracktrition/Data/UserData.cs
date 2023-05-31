@@ -28,7 +28,7 @@ public class UserData
         this.activity = activity;
     }
 
-    private double CalcBmi(double weight, double height)
+    private static double CalcBmi(double weight, double height)
     {
         return weight / (height * height);
     }

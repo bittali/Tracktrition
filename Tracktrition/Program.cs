@@ -23,12 +23,13 @@ class Program
         while (true)
         {
             Console.WriteLine("1. Add Intake");
-            Console.WriteLine("2. View todays Intake");
+            Console.WriteLine("2. View today's Intake");
             Console.WriteLine("3. View your recommended nutritional need");
             Console.WriteLine("4. View available Foods");
             Console.WriteLine("5. Add Food");
-            Console.WriteLine("6. Change your data");
-            Console.WriteLine("7. Logout");
+            Console.WriteLine("6. Update Food Data");
+            Console.WriteLine("7. Change your data");
+            Console.WriteLine("8. Logout");
             Console.Write("Enter your choice: ");
             string? choice = Console.ReadLine();
 
@@ -50,10 +51,13 @@ class Program
                     foods = AddFoodItem(foods);
                     break;
                 case "6":
-                    ChangeUserData(currentUser);
+                    UpdateFoodData(foods);
                     break;
                 case "7":
-                    Logout(users, foods, dailyUserIntakes, currentUser);                   
+                    ChangeUserData(currentUser);
+                    break;
+                case "8":
+                    Logout(users, foods, dailyUserIntakes, currentUser);
                     return;
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");
@@ -64,18 +68,37 @@ class Program
         }
     }
 
-    private static void AddIntake(List<Food> foods, List<DailyIntake> dailyUserIntakes)
+    private static void UpdateFoodData(List<Food> foods)
     {
-        Console.Write("Enter your Intake Food: ");
-        string foodname = ReadNonEmptyLine();
-
-        if (!CheckAndUpdateFood(foods, foodname))
+        Console.WriteLine("Available Foods:");
+        foreach (var food in foods)
         {
-            Console.WriteLine("This Food does not exist. Please add it to the Database.");
-            AddFoodItem(foods);
+            Console.WriteLine(food.name);
         }
 
-        Food food = GetFoodFromName(foods, foodname);
+        if (!foods.Any())
+        {
+            Console.WriteLine("No available foods. Please add foods to the database.");
+            return;
+        }
+
+        Food foodToUpdate = GetFoodFromName(foods);
+        if (foodToUpdate != null)
+        {
+            foodToUpdate.updateFood();
+        }
+        else
+        {
+            Console.WriteLine("Food not found.");
+            throw new ArgumentNullException("Food name cannot be null.");
+        }
+    }
+
+
+    private static void AddIntake(List<Food> foods, List<DailyIntake> dailyUserIntakes)
+    {
+
+        Food food = GetFoodFromName(foods);
 
         bool validAmount = false;
         int amount = 0;
@@ -99,7 +122,7 @@ class Program
 
     }
 
-    private static Food GetFoodFromName(List<Food> foods, string? foodName)
+    private static Food GetFoodFromName(List<Food> foods)
     {
         if (foods is null)
         {
@@ -111,16 +134,18 @@ class Program
             throw new ArgumentException("Foods list cannot be empty.", nameof(foods));
         }
 
-        if (foodName is null)
+        Food? foundFood = null;
+        while (foundFood is null)
         {
-            throw new ArgumentNullException(nameof(foodName), "Food name cannot be null.");
-        }
+            Console.Write("Enter the name of the food: ");
+            string? name = Console.ReadLine();
 
+            foundFood = foods.FirstOrDefault(food => food.name == name);
 
-        Food? foundFood = foods.FirstOrDefault(food => food.name == foodName);
-        if (foundFood is null)
-        {
-            throw new InvalidOperationException($"No food item found with the name '{foodName}'.");
+            if (foundFood is null)
+            {
+                Console.WriteLine($"No food item found with the name '{name}'. Please enter a valid name.");
+            }
         }
 
         return foundFood;
@@ -149,9 +174,15 @@ class Program
 
     private static void ViewFoods(List<Food> foods)
     {
+        if (foods.Count == 0)
+        {
+            Console.WriteLine("No foods available.");
+            return;
+        }
+
         foreach (Food food in foods)
         {
-            Console.WriteLine(food.name + " ({0}g calories, {1}g fat, {2}g protein, {3}g carbs)", food.calories, food.fat, food.protein, food.carbs);
+            food.PrintFacts();
         }
     }
 
