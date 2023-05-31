@@ -16,20 +16,20 @@ public class NutritionRequirement : INutritionFacts
     };
     public NutritionRequirement(UserData user)
     {
-        List<double> Results = RunCalculators(user, Calculators);
+        List<double> Results = RunCalculators(user);
         this.calories = (int) Results[0];
         this.fat = Results[1];
         this.protein = Results[2];
         this.carbs = Results[3];
     }
 
-    public List<double> RunCalculators(UserData user, IEnumerable<ICalculator> _calculators)
+    public List<double> RunCalculators(UserData user)
     {
         List<double> results = new List<double>();
         int calories = 0;
         bool isFirstIteration = true;
 
-        foreach (var calculator in _calculators)
+        foreach (var calculator in Calculators)
         {
             if (isFirstIteration)
             {
