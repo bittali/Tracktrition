@@ -6,7 +6,6 @@ namespace Tracktrition.nUnitTests
     {
 
         private DateTime _todaysDateFake;
-        //private Intake _intake;
         private Food _food = null!;
 
         [SetUp]
@@ -14,7 +13,6 @@ namespace Tracktrition.nUnitTests
         {
             _todaysDateFake = new DateTime(2023, 01, 01);
             _food = new Food("test food", 300, 10, 20, 30);
-            //_intake = new Intake(_todaysDateFake, 100, _food);
         }
 
         [Test] 

@@ -5,17 +5,15 @@ namespace Tracktrition.nUnitTests
     public class UserDataTests
     {
 
-        //private const string fileName = "users.csv";
-
-        private UserData _currentUser { get; set; } = null!;
-
-        //private DateTime todaysDateFake;
+        private UserDataLoaderMock usersMock = new UserDataLoaderMock();
+        List<UserData> users = new List<UserData>();
+        UserData userMock;
 
         [SetUp]
         public void Setup()
         {
-            //todaysDateFake = new DateTime(2023, 01, 01);
-            _currentUser = new UserData("Max", 'm', 30, 70, 176, 2);
+            users = usersMock.ReadUserDataFromFile();
+            userMock = users[0];
         }
 
         [Test]
