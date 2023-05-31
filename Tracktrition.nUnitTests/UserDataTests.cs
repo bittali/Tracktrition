@@ -24,7 +24,7 @@ namespace Tracktrition.nUnitTests
             var weight = 70;
             var height = 176;
 
-            var bmi = _currentUser.CalcBmi(weight, height);
+            var bmi = UserData.CalcBmi(weight, height);
 
             Assert.That(bmi, Is.EqualTo(22.6));
         }

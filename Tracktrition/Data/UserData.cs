@@ -28,7 +28,7 @@ public class UserData
         this.activity = activity;
     }
 
-    private static double CalcBmi(double weight, double height)
+    public static double CalcBmi(double weight, double height)
     {
         var heightInMeters = height / 100;
         double calcBMI = weight / (heightInMeters * heightInMeters);

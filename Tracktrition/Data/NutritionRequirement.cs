@@ -49,7 +49,7 @@ public class NutritionRequirement : INutritionFacts
 
     // Calculations https://www.thecalculatorsite.com/articles/health/bmr-formula.php
 
-    private static double CalcBMR (UserData user) {
+    public static double CalcBMR (UserData user) {
         //BMR = Basal Metabolic Rate -> Täglicher Grundbedarf Kalorien
         if (user.sex == 'f') {
             return (10 * user.weight) + (6.25 * user.height) - (5 * user.age) - 161;
