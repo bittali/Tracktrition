@@ -28,9 +28,11 @@ public class UserData
         this.activity = activity;
     }
 
-    private double calcBmi(double weight, double height)
+    public double calcBmi(double weight, double height)
     {
-        return weight / (height * height);
+        var heightInMeters = height / 100;
+        bmi = weight / (heightInMeters * heightInMeters);
+        return Math.Round(bmi, 1);
     }
 
     internal void printData()
