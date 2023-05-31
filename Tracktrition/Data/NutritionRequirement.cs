@@ -1,6 +1,6 @@
 namespace Tracktrition.Data;
 
-class NutritionRequirement : INutritionFacts
+public class NutritionRequirement : INutritionFacts
 {
     public int calories { get; set; }
     public double fat { get; set; }
@@ -15,13 +15,13 @@ class NutritionRequirement : INutritionFacts
         this.carbs = calcCarbsNeed(user);
     }
 
-    private double calcCarbsNeed(UserData user)
+    public double calcCarbsNeed(UserData user)
     {
         //45-65% of total cals independant of age
         return this.calories * 0.53 / 4;
     }
 
-    private double calcFatNeed(UserData user)
+    public double calcFatNeed(UserData user)
     {
         double partFat = 0.3;
 
@@ -33,10 +33,10 @@ class NutritionRequirement : INutritionFacts
             partFat = 0.35;
         }
 
-        return this.calories * partFat / 9;
+        return Math.Round((this.calories * partFat / 9), 1);
     }
 
-    private double calcProteinNeed(UserData user)
+    public double calcProteinNeed(UserData user)
     {
         double partProtein = .2;
         if (user.age > 3) { //10-30%
@@ -44,13 +44,13 @@ class NutritionRequirement : INutritionFacts
         } else if (user.age <= 3) { //5-20%
             partProtein = .12;
         }
-        return this.calories * partProtein / 4;
+        return Math.Round((this.calories * partProtein / 4), 1);
     }
 
     // Calculations https://www.thecalculatorsite.com/articles/health/bmr-formula.php
 
 
-    private double calcBMR (UserData user) {
+    public static double calcBMR (UserData user) {
         //BMR = Basal Metabolic Rate -> Täglicher Grundbedarf Kalorien
         if (user.sex == 'f') {
             return (10 * user.weight) + (6.25 * user.height) - (5 * user.age) - 161;
@@ -58,7 +58,7 @@ class NutritionRequirement : INutritionFacts
         return (10 * user.weight) + (6.25 * user.height) - (5 * user.age) + 5;
     }
 
-    private double calcCalorieNeed( UserData user){
+    public double calcCalorieNeed( UserData user){
         double bmr = calcBMR(user);
         switch (user.activity) {
             case 1: //sedentary (little or no exercise)
