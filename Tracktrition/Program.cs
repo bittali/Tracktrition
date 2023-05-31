@@ -258,11 +258,28 @@ class Program
     private static UserData CreateUser()
     {
         Console.WriteLine("This user does not exist");
-        Console.WriteLine("Please provide following information");
+        Console.WriteLine("Please provide the following information");
 
+        string name = ReadUserName();
+        char sex = ReadUserSex();
+        int age = ReadUserAge();
+        double weight = ReadUserWeight();
+        int height = ReadUserHeight();
+        int activity = ReadUserActivity();
+
+        UserData user = new UserData(name, sex, age, weight, height, activity);
+
+        return user;
+    }
+
+    private static string ReadUserName()
+    {
         Console.Write("Enter your name: ");
-        string name = ReadNonEmptyLine();
+        return ReadNonEmptyLine();
+    }
 
+    private static char ReadUserSex()
+    {
         Console.Write("Enter your sex (m/f): ");
         string? input = Console.ReadLine();
 
@@ -273,17 +290,29 @@ class Program
             input = Console.ReadLine();
         }
 
-        char sex = input[0];
+        return input[0];
+    }
 
+    private static int ReadUserAge()
+    {
         Console.Write("Enter your age: ");
-        int age = ReadNonEmptyInt();
+        return ReadNonEmptyInt();
+    }
 
+    private static double ReadUserWeight()
+    {
         Console.Write("Enter your weight: ");
-        double weight = ReadNonEmptyDouble();
+        return ReadNonEmptyDouble();
+    }
 
+    private static int ReadUserHeight()
+    {
         Console.Write("Enter your height: ");
-        int height = ReadNonEmptyInt();
+        return ReadNonEmptyInt();
+    }
 
+    private static int ReadUserActivity()
+    {
         Console.WriteLine("Activity Levels:");
         Console.WriteLine("1: Sedentary (little or no exercise)");
         Console.WriteLine("2: Lightly active (light exercise or sports 1-3 days/week)");
@@ -292,12 +321,7 @@ class Program
         Console.WriteLine("5: Super active (very hard exercise and a physical job)");
 
         Console.Write("Enter the activity level (1-5): ");
-        int activity = ReadNonEmptyInt();
-
-        UserData user = new(name, sex, age, weight, height, activity);
-
-        return user;
-
+        return ReadNonEmptyInt();
     }
 
     public static DailyIntake DailyIntakeCheckAndUpdateToday(List<DailyIntake> dailyUserIntakes)
