@@ -14,11 +14,7 @@ public class DailyIntakeLoader
 
         List<DailyIntake> dailyIntakes = new List<DailyIntake>();
 
-
-        if (!File.Exists(UserDailyIntakeFileName))
-        {
-            File.Create(UserDailyIntakeFileName).Close(); // Create the file if it doesn't exist
-        }
+        CheckForFile(UserDailyIntakeFileName);
 
         using (StreamReader reader = new StreamReader(UserDailyIntakeFileName))
         {
@@ -49,6 +45,14 @@ public class DailyIntakeLoader
         }
 
         return dailyIntakes;
+    }
+
+    private static void CheckForFile(string userDailyIntakeFileName)
+    {
+        if (!File.Exists(userDailyIntakeFileName))
+        {
+            File.Create(userDailyIntakeFileName).Close(); // Create the file if it doesn't exist
+        }
     }
 
     public static bool SaveDailyIntakeToFile(List<DailyIntake> dailyIntakes, string username)

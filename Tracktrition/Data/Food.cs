@@ -20,8 +20,17 @@ public class Food : INutritionFacts
         this.carbs = carbs;
     }
 
-    public void updateFood() {
+    public void UpdateFood()
+    {
+        UpdateName();
+        UpdateCalories();
+        UpdateFat();
+        UpdateProtein();
+        UpdateCarbs();
+    }
 
+    private void UpdateName()
+    {
         Console.Write("Enter the new name of the food: ");
         string? inputName = Console.ReadLine();
 
@@ -33,8 +42,12 @@ public class Food : INutritionFacts
         }
 
         name = inputName;
+    }
 
+    private void UpdateCalories()
+    {
         bool validInput = false;
+
         while (!validInput)
         {
             Console.Write("Enter the new number of calories: ");
@@ -48,8 +61,12 @@ public class Food : INutritionFacts
                 Console.WriteLine("Invalid input. Please enter a valid number for calories.");
             }
         }
+    }
 
-        validInput = false;
+    private void UpdateFat()
+    {
+        bool validInput = false;
+
         while (!validInput)
         {
             Console.Write("Enter the new amount of fat: ");
@@ -63,8 +80,12 @@ public class Food : INutritionFacts
                 Console.WriteLine("Invalid input. Please enter a valid number for fat.");
             }
         }
+    }
 
-        validInput = false;
+    private void UpdateProtein()
+    {
+        bool validInput = false;
+
         while (!validInput)
         {
             Console.Write("Enter the new amount of protein: ");
@@ -78,8 +99,12 @@ public class Food : INutritionFacts
                 Console.WriteLine("Invalid input. Please enter a valid number for protein.");
             }
         }
+    }
 
-        validInput = false;
+    private void UpdateCarbs()
+    {
+        bool validInput = false;
+
         while (!validInput)
         {
             Console.Write("Enter the new amount of carbs: ");
@@ -94,6 +119,7 @@ public class Food : INutritionFacts
             }
         }
     }
+
 
     internal void PrintFacts()
     {

@@ -16,10 +16,7 @@ public class FoodLoader
     {
         List<Food> users = new List<Food>();
 
-        if (!File.Exists(FoodFileName))
-        {
-            File.Create(FoodFileName).Close(); // Create the file if it doesn't exist
-        }
+        CheckForFile();
 
         using (StreamReader reader = new StreamReader(FoodFileName))
         {
@@ -37,6 +34,14 @@ public class FoodLoader
         }
 
         return users;
+    }
+
+    private static void CheckForFile()
+    {
+        if (!File.Exists(FoodFileName))
+        {
+            File.Create(FoodFileName).Close(); // Create the file if it doesn't exist
+        }
     }
 
     public static bool SaveFoodsToFile(List<Food> foods)

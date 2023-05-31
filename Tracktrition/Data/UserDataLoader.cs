@@ -12,10 +12,7 @@ public class UserDataLoader
     {
         List<UserData> users = new List<UserData>();
 
-        if (!File.Exists(UserDataFileName))
-        {
-            File.Create(UserDataFileName).Close(); // Create the file if it doesn't exist
-        }
+        CheckForFile();
 
         using (StreamReader reader = new StreamReader(UserDataFileName))
         {
@@ -42,6 +39,14 @@ public class UserDataLoader
         }
 
         return users;
+    }
+
+    private static void CheckForFile()
+    {
+        if (!File.Exists(UserDataFileName))
+        {
+            File.Create(UserDataFileName).Close(); // Create the file if it doesn't exist
+        }
     }
 
     public static bool SaveUserDataToFile(List<UserData> users)
