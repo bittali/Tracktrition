@@ -5,12 +5,9 @@ using System.Globalization;
 
 class Program
 {
+    static UserData? currentUser;
 
-    const string fileName = "users.csv";
-
-    static UserData currentUser = null;
-
-    static DateTime todaysDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
+    static readonly DateTime todaysDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
 
     static void Main()
     {
@@ -24,7 +21,7 @@ class Program
         }
 
         // LOAD INTAKE DATA HERE 
-        List<DailyIntake> dailyUserIntakes = loadIntake(currentUser.name);
+        List<DailyIntake> dailyUserIntakes = LoadIntake(currentUser.name);
 
         while (true)
         {
@@ -75,6 +72,13 @@ class Program
         Console.Write("Enter your Intake Food: ");
         string foodname = Console.ReadLine();
 
+        while (string.IsNullOrWhiteSpace(foodname))
+        {
+            Console.WriteLine("Invalid input. Please enter a valid food name.");
+            Console.Write("Enter your Intake Food: ");
+            foodname = Console.ReadLine();
+        }
+
         if (!CheckAndUpdateFood(foods, foodname))
         {
             Console.WriteLine("This Food does not exist. Please add it to the Database.");
@@ -83,8 +87,21 @@ class Program
 
         Food food = GetFoodFromName(foods, foodname);
 
-        Console.Write("Enter your Intake Amount: ");
-        int amount = int.Parse(Console.ReadLine());
+        bool validAmount = false;
+        int amount = 0;
+
+        while (!validAmount)
+        {
+            Console.Write("Enter your Intake Amount: ");
+            string input = Console.ReadLine();
+
+            validAmount = int.TryParse(input, out amount);
+
+            if (!validAmount)
+            {
+                Console.WriteLine("Invalid input. Please enter a valid integer amount.");
+            }
+        }
 
         DailyIntake todaysIntake = DailyIntakeCheckAndUpdateToday(dailyUserIntakes);
 
@@ -94,7 +111,29 @@ class Program
 
     private static Food GetFoodFromName(List<Food> foods, string? foodName)
     {
-        return foods.FirstOrDefault(food => food.name == foodName);
+        if (foods is null)
+        {
+            throw new ArgumentNullException(nameof(foods), "Foods list cannot be null.");
+        }
+
+        if (foods.Count == 0)
+        {
+            throw new ArgumentException("Foods list cannot be empty.", nameof(foods));
+        }
+
+        if (foodName is null)
+        {
+            throw new ArgumentNullException(nameof(foodName), "Food name cannot be null.");
+        }
+
+
+        Food? foundFood = foods.FirstOrDefault(food => food.name == foodName);
+        if (foundFood is null)
+        {
+            throw new InvalidOperationException($"No food item found with the name '{foodName}'.");
+        }
+
+        return foundFood;
     }
 
     private static bool CheckAndUpdateFood(List<Food> foods, string? foodname)
@@ -142,13 +181,13 @@ class Program
         Console.WriteLine("\nYou can change the following Data:");
 
         Console.Write("Enter your age: ");
-        currentUser.age = int.Parse(Console.ReadLine());
+        currentUser.age = ReadNonEmptyInt();
 
         Console.Write("Enter your weight: ");
-        currentUser.weight = double.Parse(Console.ReadLine());
+        currentUser.weight = ReadNonEmptyDouble();
 
         Console.Write("Enter your height: ");
-        currentUser.height = int.Parse(Console.ReadLine());
+        currentUser.height = ReadNonEmptyInt();
 
         Console.WriteLine("Activity Levels:");
         Console.WriteLine("1: Sedentary (little or no exercise)");
@@ -158,7 +197,7 @@ class Program
         Console.WriteLine("5: Super active (very hard exercise and a physical job)");
 
         Console.Write("Enter the activity level (1-5): ");
-        currentUser.activity = int.Parse(Console.ReadLine());
+        currentUser.activity = ReadNonEmptyInt();
 
     }
 
@@ -172,7 +211,7 @@ class Program
 
     }
 
-    private static List<DailyIntake> loadIntake(string activeUser)
+    private static List<DailyIntake> LoadIntake(string activeUser)
     {
         List<DailyIntake> dailyIntakes = DailyIntakeLoader.ReadDailyIntakeFromFile(activeUser);
 
@@ -203,20 +242,28 @@ class Program
         Console.WriteLine("Please provide following information");
 
         Console.Write("Enter your name: ");
-        string name = Console.ReadLine();
+        string name = ReadNonEmptyLine();
 
         Console.Write("Enter your sex (m/f): ");
-        char sex = Console.ReadKey().KeyChar;
-        Console.WriteLine();
+        string input = Console.ReadLine();
+
+        while (string.IsNullOrWhiteSpace(input) || input.Length > 1 || (input[0] != 'm' && input[0] != 'f'))
+        {
+            Console.WriteLine("Invalid input. Please enter 'm' for male or 'f' for female.");
+            Console.Write("Enter your sex (m/f): ");
+            input = Console.ReadLine();
+        }
+
+        char sex = input[0];
 
         Console.Write("Enter your age: ");
-        int age = int.Parse(Console.ReadLine());
+        int age = ReadNonEmptyInt();
 
         Console.Write("Enter your weight: ");
-        double weight = double.Parse(Console.ReadLine());
+        double weight = ReadNonEmptyDouble();
 
         Console.Write("Enter your height: ");
-        int height = int.Parse(Console.ReadLine());
+        int height = ReadNonEmptyInt();
 
         Console.WriteLine("Activity Levels:");
         Console.WriteLine("1: Sedentary (little or no exercise)");
@@ -226,7 +273,7 @@ class Program
         Console.WriteLine("5: Super active (very hard exercise and a physical job)");
 
         Console.Write("Enter the activity level (1-5): ");
-        int activity = int.Parse(Console.ReadLine());
+        int activity = ReadNonEmptyInt();
 
         UserData user = new UserData(name, sex, age, weight, height, activity);
 
@@ -254,23 +301,73 @@ class Program
     static List<Food> AddFoodItem(List<Food> foods)
     {
         Console.WriteLine("\nEnter the name of the food:");
-        string name = Console.ReadLine();
+        string name = ReadNonEmptyLine();
 
         Console.WriteLine("Enter the number of calories in 100g:");
-        int calories = int.Parse(Console.ReadLine());
+        int calories = ReadNonEmptyInt();
 
         Console.WriteLine("Enter the amount of fat in 100g:");
-        double fat = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+        double fat = ReadNonEmptyDouble();
 
         Console.WriteLine("Enter the amount of protein in 100g:");
-        double protein = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+        double protein = ReadNonEmptyDouble();
 
         Console.WriteLine("Enter the amount of carbs in 100g:");
-        double carbs = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+        double carbs = ReadNonEmptyDouble();
 
         Food food = new Food(name, calories, fat, protein, carbs);
         foods.Add(food);
         return foods;
     }
+
+    // Function to read a non-empty string line
+    static string ReadNonEmptyLine()
+    {
+        string input = "";
+        while (string.IsNullOrWhiteSpace(input))
+        {
+            input = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                Console.WriteLine("Invalid input. Please enter a non-empty value.");
+            }
+        }
+        return input;
+    }
+
+    // Function to read a non-empty integer value
+    static int ReadNonEmptyInt()
+    {
+        int value = 0;
+        bool validInput = false;
+        while (!validInput)
+        {
+            string input = Console.ReadLine();
+            validInput = int.TryParse(input, out value);
+            if (!validInput)
+            {
+                Console.WriteLine("Invalid input. Please enter a valid integer value.");
+            }
+        }
+        return value;
+    }
+
+    // Function to read a non-empty double value with dot as decimal separator
+    static double ReadNonEmptyDouble()
+    {
+        double value = 0.0;
+        bool validInput = false;
+        while (!validInput)
+        {
+            string input = Console.ReadLine();
+            validInput = double.TryParse(input, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
+            if (!validInput)
+            {
+                Console.WriteLine("Invalid input. Please enter a valid decimal value.");
+            }
+        }
+        return value;
+    }
+
 
 }
