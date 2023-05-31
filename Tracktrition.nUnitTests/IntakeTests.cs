@@ -36,7 +36,7 @@ namespace Tracktrition.nUnitTests
             var data = 120.0;
             var amount = 200.0;
 
-            var result = Intake.calcPerAmount(data, amount);
+            var result = Intake.CalcPerAmount(data, amount);
 
             Assert.That(result, Is.EqualTo(240.0));
         }

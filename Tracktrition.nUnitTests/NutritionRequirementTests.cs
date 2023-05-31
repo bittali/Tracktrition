@@ -66,8 +66,8 @@ namespace Tracktrition.nUnitTests
         [Test]
         public void calcBmr_Test()
         {
-            var _fBmr = NutritionRequirement.calcBMR(_fUser);
-            var _mBmr = NutritionRequirement.calcBMR(_mUser);
+            var _fBmr = NutritionRequirement.CalcBMR(_fUser);
+            var _mBmr = NutritionRequirement.CalcBMR(_mUser);
 
             Assert.That(_fBmr, Is.EqualTo(1239));
             Assert.That(_mBmr, Is.EqualTo(1655));
