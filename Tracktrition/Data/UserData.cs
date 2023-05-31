@@ -24,16 +24,16 @@ public class UserData
         this.age = age;
         this.weight = weight;
         this.height = height;
-        this.bmi = calcBmi(weight, (double)height);
+        this.bmi = CalcBmi(weight, (double)height);
         this.activity = activity;
     }
 
-    private double calcBmi(double weight, double height)
+    private double CalcBmi(double weight, double height)
     {
         return weight / (height * height);
     }
 
-    internal void printData()
+    internal void PrintData()
     {
         Console.WriteLine("Your currently saved Data");
         Console.WriteLine("Name: " + name);

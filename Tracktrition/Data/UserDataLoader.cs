@@ -19,7 +19,7 @@ public class UserDataLoader
 
         using (StreamReader reader = new StreamReader(UserDataFileName))
         {
-            string line;
+            string? line;
             while ((line = reader.ReadLine()) != null)
             {
 

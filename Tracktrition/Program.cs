@@ -5,7 +5,6 @@ using System.Globalization;
 
 class Program
 {
-    static UserData? currentUser;
 
     static readonly DateTime todaysDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
 
@@ -15,10 +14,10 @@ class Program
         List<UserData> users = UserDataLoader.ReadUserDataFromFile();
         List<Food> foods = FoodLoader.ReadFoodFromFile();
 
-        if (!Login(users))
-        {
-            users.Add(CreateUser());
-        }
+        UserData? loggedInUser = Login(users);
+        
+        // If loggedInUser is NULL CreateUser() is executed
+        UserData currentUser = loggedInUser ?? CreateUser();
 
         // LOAD INTAKE DATA HERE 
         List<DailyIntake> dailyUserIntakes = LoadIntake(currentUser.name);
@@ -33,7 +32,7 @@ class Program
             Console.WriteLine("6. Change your data");
             Console.WriteLine("7. Logout");
             Console.Write("Enter your choice: ");
-            string choice = Console.ReadLine();
+            string? choice = Console.ReadLine();
 
             switch (choice)
             {
@@ -44,7 +43,7 @@ class Program
                     ViewTodaysIntake(dailyUserIntakes);
                     break;
                 case "3":
-                    ViewNutritionNeed();
+                    ViewNutritionNeed(currentUser);
                     break;
                 case "4":
                     ViewFoods(foods);
@@ -53,10 +52,10 @@ class Program
                     foods = AddFoodItem(foods);
                     break;
                 case "6":
-                    ChangeUserData();
+                    ChangeUserData(currentUser);
                     break;
                 case "7":
-                    Logout(users, foods, dailyUserIntakes);                   
+                    Logout(users, foods, dailyUserIntakes, currentUser);                   
                     return;
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");
@@ -70,14 +69,7 @@ class Program
     private static void AddIntake(List<Food> foods, List<DailyIntake> dailyUserIntakes)
     {
         Console.Write("Enter your Intake Food: ");
-        string foodname = Console.ReadLine();
-
-        while (string.IsNullOrWhiteSpace(foodname))
-        {
-            Console.WriteLine("Invalid input. Please enter a valid food name.");
-            Console.Write("Enter your Intake Food: ");
-            foodname = Console.ReadLine();
-        }
+        string foodname = ReadNonEmptyLine();
 
         if (!CheckAndUpdateFood(foods, foodname))
         {
@@ -93,7 +85,7 @@ class Program
         while (!validAmount)
         {
             Console.Write("Enter your Intake Amount: ");
-            string input = Console.ReadLine();
+            string? input = Console.ReadLine();
 
             validAmount = int.TryParse(input, out amount);
 
@@ -149,7 +141,7 @@ class Program
         return false; // Name not found in the list
     }
 
-    private static void Logout(List<UserData> users, List<Food> foods, List<DailyIntake> dailyUserIntakes)
+    private static void Logout(List<UserData> users, List<Food> foods, List<DailyIntake> dailyUserIntakes, UserData currentUser)
     {
         Console.WriteLine($"Logging out {currentUser.name}...");
         UserDataLoader.SaveUserDataToFile(users);
@@ -173,10 +165,10 @@ class Program
 
     }
 
-    private static void ChangeUserData()
+    private static void ChangeUserData(UserData currentUser)
     {
 
-        currentUser.printData();
+        currentUser.PrintData();
 
         Console.WriteLine("\nYou can change the following Data:");
 
@@ -201,9 +193,9 @@ class Program
 
     }
 
-    private static void ViewNutritionNeed()
+    private static void ViewNutritionNeed(UserData currentUser)
     {
-        NutritionRequirement currentUserNeeds = new NutritionRequirement(currentUser);
+        NutritionRequirement currentUserNeeds = new (currentUser);
 
         Console.WriteLine("The recommended daily nutritional need for {0} is: ", currentUser.name);
         Console.WriteLine("Calories: {0} \nCarbs: {1} g \nProtein: {2} g \nFat: {3} g \n", currentUserNeeds.calories, 
@@ -218,22 +210,20 @@ class Program
         return dailyIntakes;
     }
 
-    static bool Login(List<UserData> users)
+    static UserData? Login(List<UserData> users)
     {
         Console.Write("Enter your name: ");
-        string username = Console.ReadLine();
+        string username = ReadNonEmptyLine();
 
         foreach (UserData user in users)
         {
-
             if (user.name == username)
             {
                 Console.WriteLine($"Welcome, {username}!");
-                currentUser = user;
-                return true; // Name found in the list
+                return user; // Return the user object
             }
         }
-        return false; // Name not found in the list
+        return null; // User not found in the list
     }
 
     private static UserData CreateUser()
@@ -245,7 +235,7 @@ class Program
         string name = ReadNonEmptyLine();
 
         Console.Write("Enter your sex (m/f): ");
-        string input = Console.ReadLine();
+        string? input = Console.ReadLine();
 
         while (string.IsNullOrWhiteSpace(input) || input.Length > 1 || (input[0] != 'm' && input[0] != 'f'))
         {
@@ -275,9 +265,7 @@ class Program
         Console.Write("Enter the activity level (1-5): ");
         int activity = ReadNonEmptyInt();
 
-        UserData user = new UserData(name, sex, age, weight, height, activity);
-
-        currentUser = user;
+        UserData user = new(name, sex, age, weight, height, activity);
 
         return user;
 
@@ -323,7 +311,7 @@ class Program
     // Function to read a non-empty string line
     static string ReadNonEmptyLine()
     {
-        string input = "";
+        string? input = "";
         while (string.IsNullOrWhiteSpace(input))
         {
             input = Console.ReadLine();
@@ -342,7 +330,7 @@ class Program
         bool validInput = false;
         while (!validInput)
         {
-            string input = Console.ReadLine();
+            string? input = Console.ReadLine();
             validInput = int.TryParse(input, out value);
             if (!validInput)
             {
@@ -359,7 +347,7 @@ class Program
         bool validInput = false;
         while (!validInput)
         {
-            string input = Console.ReadLine();
+            string? input = Console.ReadLine();
             validInput = double.TryParse(input, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
             if (!validInput)
             {
