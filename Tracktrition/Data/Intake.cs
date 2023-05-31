@@ -12,14 +12,9 @@ public class Intake : INutritionFacts
     public Intake(DateTime date, double amount, Food food) {
         this.date = date;
         this.amount = amount;
-        this.calories = (int)CalcPerAmount(food.calories, amount);
-        this.carbs = CalcPerAmount(food.carbs, amount);
-        this.protein = CalcPerAmount(food.protein, amount);
-        this.fat = CalcPerAmount(food.fat, amount);
-    }
-
-    public static double CalcPerAmount(double data, double amount) {
-        double factor = amount * .01;
-        return data * factor;
+        this.calories = (int)AmountCalculator.CalculatePerAmount(food.calories, amount);
+        this.carbs = AmountCalculator.CalculatePerAmount(food.carbs, amount);
+        this.protein = AmountCalculator.CalculatePerAmount(food.protein, amount);
+        this.fat = AmountCalculator.CalculatePerAmount(food.fat, amount);
     }
 }
