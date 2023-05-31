@@ -24,15 +24,8 @@ public class UserData
         this.age = age;
         this.weight = weight;
         this.height = height;
-        this.bmi = CalcBmi(weight, (double)height);
+        this.bmi = BMICalculator.CalculateBmi(weight, (double)height);
         this.activity = activity;
-    }
-
-    public static double CalcBmi(double weight, double height)
-    {
-        var heightInMeters = height / 100;
-        double calcBMI = weight / (heightInMeters * heightInMeters);
-        return Math.Round(calcBMI, 1);
     }
 
     internal void PrintData()
