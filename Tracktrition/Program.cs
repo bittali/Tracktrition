@@ -85,7 +85,7 @@ class Program
         Food foodToUpdate = GetFoodFromName(foods);
         if (foodToUpdate != null)
         {
-            foodToUpdate.updateFood();
+            foodToUpdate.UpdateFood();
         }
         else
         {
