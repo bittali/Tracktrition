@@ -1,6 +1,6 @@
 namespace Tracktrition.Data;
 
-class NutritionRequirement : INutritionFacts
+public class NutritionRequirement : INutritionFacts
 {
     public int calories { get; set; }
     public double fat { get; set; }
@@ -33,7 +33,7 @@ class NutritionRequirement : INutritionFacts
             partFat = 0.35;
         }
 
-        return this.calories * partFat / 9;
+        return Math.Round((this.calories * partFat / 9), 1);
     }
 
     private double CalcProteinNeed(UserData user)
@@ -44,11 +44,10 @@ class NutritionRequirement : INutritionFacts
         } else if (user.age <= 3) { //5-20%
             partProtein = .12;
         }
-        return this.calories * partProtein / 4;
+        return Math.Round((this.calories * partProtein / 4), 1);
     }
 
     // Calculations https://www.thecalculatorsite.com/articles/health/bmr-formula.php
-
 
     private static double CalcBMR (UserData user) {
         //BMR = Basal Metabolic Rate -> Täglicher Grundbedarf Kalorien

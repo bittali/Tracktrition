@@ -30,7 +30,9 @@ public class UserData
 
     private static double CalcBmi(double weight, double height)
     {
-        return weight / (height * height);
+        var heightInMeters = height / 100;
+        double calcBMI = weight / (heightInMeters * heightInMeters);
+        return Math.Round(calcBMI, 1);
     }
 
     internal void PrintData()
