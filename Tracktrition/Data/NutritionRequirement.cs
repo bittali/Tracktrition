@@ -9,45 +9,11 @@ public class NutritionRequirement : INutritionFacts
 
     public NutritionRequirement(UserData user)
     {
-        this.calories = (int)CalcCalorieNeed(user);
-        this.fat = CalcFatNeed(user);
-        this.protein = CalcProteinNeed(user);
-        this.carbs = CalcCarbsNeed();
+        this.calories = CaloriesCalculator.CalculateCalories(user);
+        this.fat = FatCalculator.CalculateFat(user, this.calories);
+        this.protein = ProteinCalculator.CalculateProtein(user, this.calories);
+        this.carbs = CarbsCalculator.CalculateCarbs(this.calories);
     }
-
-    private double CalcCarbsNeed()
-    {
-        //45-65% of total cals independant of age
-        return this.calories * 0.53 / 4;
-    }
-
-    private double CalcFatNeed(UserData user)
-    {
-        double partFat = 0.3;
-
-        if (user.age > 18) { //20-35%
-            partFat =  0.27;
-        } else if (user.age > 3 && user.age <= 18) { //25-35%
-            partFat = 0.3;
-        } else if (user.age <= 3) { //30-40%
-            partFat = 0.35;
-        }
-
-        return Math.Round((this.calories * partFat / 9), 1);
-    }
-
-    private double CalcProteinNeed(UserData user)
-    {
-        double partProtein = .2;
-        if (user.age > 3) { //10-30%
-            partProtein = .2;
-        } else if (user.age <= 3) { //5-20%
-            partProtein = .12;
-        }
-        return Math.Round((this.calories * partProtein / 4), 1);
-    }
-
-    // Calculations https://www.thecalculatorsite.com/articles/health/bmr-formula.php
 
     public static double CalcBMR (UserData user) {
         //BMR = Basal Metabolic Rate -> Täglicher Grundbedarf Kalorien
@@ -56,25 +22,4 @@ public class NutritionRequirement : INutritionFacts
         }
         return (10 * user.weight) + (6.25 * user.height) - (5 * user.age) + 5;
     }
-
-    private static double CalcCalorieNeed(UserData user)
-    {
-        double bmr = CalcBMR(user);
-        switch (user.activity)
-        {
-            case 1: // sedentary (little or no exercise)
-                return bmr * 1.2;
-            case 2: // lightly active (light exercise or sports 1-3 days/week)
-                return bmr * 1.375;
-            case 3: // moderately active (moderate exercise 3-5 days/week)
-                return bmr * 1.55;
-            case 4: // very active (hard exercise 6-7 days/week)
-                return bmr * 1.725;
-            case 5: // super active (very hard exercise and a physical job)
-                return bmr * 1.9;
-            default:
-                throw new InvalidOperationException("Invalid activity level specified.");
-        }
-    }
-
 }
